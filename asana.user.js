@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Asana prokeys
 // @namespace    joostdevries
-// @version      0.3
+// @version      0.3.1
 // @description  Extra tab-based hotkeys for Asana pros
 // @author       Joost de Vries
 // @match        https://app.asana.com/*
@@ -44,10 +44,10 @@
             case 'Digit2':
                 document.querySelector('input:focus').value='tomorrow';
                 break;
-            case 'Digit2':
+            case 'Digit3':
                 document.querySelector('input:focus').value='next week';
                 break;
-            case 'Digit2':
+            case 'Digit4':
                 document.querySelector('input:focus').value='next month';
                 break;
             case 'Equal':
