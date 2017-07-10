@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Asana prokeys
 // @namespace    joostdevries
-// @version      0.2
+// @version      0.3
 // @description  Extra tab-based hotkeys for Asana pros
 // @author       Joost de Vries
 // @match        https://app.asana.com/*
@@ -10,26 +10,6 @@
 
 (function() {
     'use strict';
-
-    var simulateKeyUp = function(elem) {
-        var keyboardEvent = document.createEvent("KeyboardEvent");
-        var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
-
-
-        keyboardEvent[initMethod](
-                           "keydown", // event type : keydown, keyup, keypress
-                            true, // bubbles
-                            true, // cancelable
-                            window, // viewArg: should be window
-                            false, // ctrlKeyArg
-                            false, // altKeyArg
-                            false, // shiftKeyArg
-                            false, // metaKeyArg
-                            40, // keyCodeArg : unsigned long the virtual key code, else 0
-                            0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
-        );
-        elem.dispatchEvent(keyboardEvent);
-    };
 
     var customAsanaKbdShortcutsTabDown = false;
     var respondKeyDown = function(event) {
@@ -63,6 +43,12 @@
                 break;
             case 'Digit2':
                 document.querySelector('input:focus').value='tomorrow';
+                break;
+            case 'Digit2':
+                document.querySelector('input:focus').value='next week';
+                break;
+            case 'Digit2':
+                document.querySelector('input:focus').value='next month';
                 break;
             case 'Equal':
                 document.querySelector('.Topbar-navButton').click();
