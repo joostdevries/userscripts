@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Asana prokeys
 // @namespace    joostdevries
-// @version      0.3.1
+// @version      0.5.2
 // @description  Extra tab-based hotkeys for Asana pros
 // @author       Joost de Vries
 // @match        https://app.asana.com/*
@@ -11,50 +11,75 @@
 (function() {
     'use strict';
 
-    var customAsanaKbdShortcutsTabDown = false;
-    var respondKeyDown = function(event) {
-        if (event.code == 'Tab') {
-            customAsanaKbdShortcutsTabDown = true;
+        var tabKeyDown = false;
+
+        var respondKeyDown = function(event) {
+            if(event.code == 'Tab') {
+                tabKeyDown = true;
+            }
         }
-    };
-    var respondKeyUp = function(event) {
-        if (event.code == 'Tab') {
-            customAsanaKbdShortcutsTabDown = false;
-        }
-        if(!customAsanaKbdShortcutsTabDown) {
-            return true;
-        }
-        console.log(event.code);
-        switch (event.code) {
-            case 'Digit0':
-                document.getElementsByClassName('Topbar-myTasksButton')[0].click();
-                break;
-            case 'Digit7':
-                document.querySelectorAll('[title="Next 7 days"]')[0].click();
-                break;
-            case 'Minus':
-                document.getElementsByClassName('SingleTaskPaneToolbar-closeButton')[0].click();
-                break;
-            case 'Space':
-                prompt('Cmd+C', window.location.href);
-                break;
-            case 'Digit1':
-                document.querySelector('input:focus').value='today';
-                break;
-            case 'Digit2':
-                document.querySelector('input:focus').value='tomorrow';
-                break;
-            case 'Digit3':
-                document.querySelector('input:focus').value='next week';
-                break;
-            case 'Digit4':
-                document.querySelector('input:focus').value='next month';
-                break;
-            case 'Equal':
-                document.querySelector('.Topbar-navButton').click();
-                break;
-        }
-    };
-    document.addEventListener('keydown', respondKeyDown);
-    document.addEventListener('keyup', respondKeyUp);
+
+        var respondKeyPress = function(event) {
+        };
+
+        var respondKeyUp = function(event) {
+
+            if(event.code == 'Tab') {
+                tabKeyDown = false;
+            }
+
+            if(!tabKeyDown) {
+                return true;
+            }
+
+            switch (event.code) {
+                case 'Digit0':
+                    document.getElementsByClassName('Topbar-myTasksButton')[0].click();
+                    break;
+                case 'Digit9':
+                    document.getElementsByClassName('Topbar-notificationsButton')[0].click();
+                    break;
+                case 'Digit7':
+                    document.querySelectorAll('[title="Next 7 days"]')[0].click();
+                    break;
+                case 'Minus':
+                    document.getElementsByClassName('closeDetailsPaneX')[0].click();
+                    break;
+                case 'Equal':
+                    document.querySelector('.Topbar-navButton').click();
+                    break;
+            }
+
+            var focusElement = document.querySelector('input:focus');
+            if (focusElement && (focusElement.id == 'property_sheet:details_property_sheet_field:due_date' ||
+                                 focusElement.className.indexOf('DueDateInput-input')!==-1)) {
+                switch (event.code) {
+                    case 'Digit1':
+                        focusElement.value='today';
+                        event.preventDefault();
+                        break;
+                    case 'Digit2':
+                        focusElement.value='+1 day';
+                        event.preventDefault();
+                        break;
+                    case 'Digit3':
+                        focusElement.value='+1 week';
+                        event.preventDefault();
+                        break;
+                    case 'Digit4':
+                        focusElement.value='+2 weeks';
+                        event.preventDefault();
+                        break;
+                    case 'Digit5':
+                        focusElement.value='+4 weeks';
+                        event.preventDefault();
+                        break;
+                }
+                focusElement.dispatchEvent(new Event('change',{bubbles: true}));
+            }
+        };
+
+        document.addEventListener('keydown', respondKeyDown);
+        document.addEventListener('keyup', respondKeyUp);
+        document.addEventListener('keypress', respondKeyPress);
 })();
