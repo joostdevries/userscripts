@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Asana prokeys
 // @namespace    joostdevries
-// @version      0.5.2
+// @version      0.5.3
 // @description  Extra tab-based hotkeys for Asana pros
 // @author       Joost de Vries
 // @match        https://app.asana.com/*
@@ -38,6 +38,11 @@
                     break;
                 case 'Digit9':
                     document.getElementsByClassName('Topbar-notificationsButton')[0].click();
+                    break;
+                case 'Digit8':
+                    document.querySelector('.MyTasksGridHeader-settingsMenu').click();
+                    document.querySelector('.GridSortSection-button').click();
+                    document.querySelector('.GridSortSection-option.GridViewDropdownContents-sortSectionSortByDate').click();
                     break;
                 case 'Digit7':
                     document.querySelectorAll('[title="Next 7 days"]')[0].click();
