@@ -53,6 +53,9 @@
                 case 'Equal':
                     document.querySelector('.Topbar-navButton').click();
                     break;
+                case 'Digit6':
+                    prompt('Hit Cmd + C', location.href.replace(location.href.split('/')[4],'0'));
+                    break;
             }
 
             var focusElement = document.querySelector('input:focus');
