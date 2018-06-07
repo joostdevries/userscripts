@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Asana prokeys
 // @namespace    joostdevries
-// @version      0.5.3
+// @version      0.5.4
 // @description  Extra tab-based hotkeys for Asana pros
 // @author       Joost de Vries
 // @match        https://app.asana.com/*
@@ -51,7 +51,8 @@
                     document.getElementsByClassName('closeDetailsPaneX')[0].click();
                     break;
                 case 'Equal':
-                    document.querySelector('.Topbar-navButton').click();
+                    try {document.querySelector('.ExpandSidebarButton-toggleIcon').dispatchEvent(new MouseEvent('click', {view: window, bubbles: true, cancelable: true}));}catch(e){}
+                    try {document.querySelector('.Topbar-navButton').click();}catch(e){}
                     break;
                 case 'Digit6':
                     prompt('Hit Cmd + C', location.href.replace(location.href.split('/')[4],'0'));
