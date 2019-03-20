@@ -42,7 +42,7 @@
                 case 'Digit8':
                     document.querySelector('.MyTasksGridHeader-settingsMenu').click();
                     document.querySelector('.GridSortSection-button').click();
-                    document.querySelector('.GridSortSection-option.GridViewDropdownContents-sortSectionSortByDate').click();
+                    document.querySelector('.GridSortSection-option.GridViewDropdownContents-sortSectionSortByDueDate').click();
                     break;
                 case 'Digit7':
                     document.querySelectorAll('[title="Next 7 days"]')[0].click();
