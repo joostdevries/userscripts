@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Asana prokeys
 // @namespace    joostdevries
-// @version      0.6.0
+// @version      0.6.1
 // @description  Extra tab-based hotkeys for Asana pros
 // @author       Joost de Vries
 // @match        https://app.asana.com/*
