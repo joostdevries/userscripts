@@ -29,7 +29,7 @@
           var allTaskRows = document.querySelectorAll('.TaskRow');
           var currentStartTime = new Date();
           allTaskRows.forEach(function(taskRow) {
-            var durationSeconds = 0;
+            var durationSeconds = 20 * 60;
             var taskName = taskRow.querySelector('.TaskName textarea').value;
             if (taskName == ' ') {
               return;
