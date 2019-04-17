@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Asana prokeys
 // @namespace    joostdevries
-// @version      0.5.4
+// @version      0.6.0
 // @description  Extra tab-based hotkeys for Asana pros
 // @author       Joost de Vries
 // @match        https://app.asana.com/*
@@ -10,6 +10,58 @@
 
 (function() {
     'use strict';
+
+        var TIME_EST_CLS = 'time-est';
+        var DUR_REGEX = / ?\[([0-9]+m?h?)\]/;
+        var START_REGEX = /^\[([0-9]+:[0-9]+)\] ?/;
+
+        function clearTimeEstimates() {
+          document.querySelectorAll('.' + TIME_EST_CLS).forEach(function(timeEstElement) {
+            timeEstElement.remove();
+          });
+        }
+
+        function pad(n) {
+          return n<10 ? '0'+n : n;
+        }
+
+        function addTimeEstimates() {
+          var allTaskRows = document.querySelectorAll('.TaskRow');
+          var currentStartTime = new Date();
+          allTaskRows.forEach(function(taskRow) {
+            var durationSeconds = 0;
+            var taskName = taskRow.querySelector('.TaskName textarea').value;
+            if (taskName == ' ') {
+              return;
+            }
+            var durationData = taskName.match(DUR_REGEX);
+            var startTimeData = taskName.match(START_REGEX);
+            if(durationData) {
+              var durationModifier = durationData[1][durationData[1].length-1];
+              var durationSeconds = parseInt(durationData[1].replace(durationModifier, ''), 10) * ((durationModifier=='m') ? 60 : 3600);
+              taskName = taskName.replace(durationData[0], '');
+            }
+            if(startTimeData) {
+              var startHours = parseInt(startTimeData[1].split(':')[0], 10);
+              var startMinutes = parseInt(startTimeData[1].split(':')[1], 10);
+              currentStartTime.setHours(startHours);
+              currentStartTime.setMinutes(startMinutes);
+              taskName = taskName.replace(startTimeData[0], '');
+            }
+            var endTime = new Date(currentStartTime.getTime() + durationSeconds * 1000);
+            var startTimeString = pad(currentStartTime.getHours()) + ':' + pad(currentStartTime.getMinutes());
+            var endTimeString = pad(endTime.getHours()) + ':' + pad(endTime.getMinutes());
+            currentStartTime = endTime
+            console.log(taskName, startTimeString, endTimeString);
+
+            var timeEstimateElement = document.createElement('div');
+            timeEstimateElement.style = 'postition: absolute; font-size:10px;';
+            timeEstimateElement.innerText = startTimeString + ' - ' + endTimeString;
+            timeEstimateElement.className = TIME_EST_CLS;
+            taskRow.appendChild(timeEstimateElement);
+          });
+        }
+
 
         var tabKeyDown = false;
 
@@ -45,7 +97,8 @@
                     document.querySelector('.GridSortSection-option.GridViewDropdownContents-sortSectionSortByDueDate').click();
                     break;
                 case 'Digit7':
-                    document.querySelectorAll('[title="Next 7 days"]')[0].click();
+                    clearTimeEstimates();
+                    addTimeEstimates();
                     break;
                 case 'Minus':
                     document.getElementsByClassName('closeDetailsPaneX')[0].click();
@@ -91,4 +144,6 @@
         document.addEventListener('keydown', respondKeyDown);
         document.addEventListener('keyup', respondKeyUp);
         document.addEventListener('keypress', respondKeyPress);
+
+
 })();
