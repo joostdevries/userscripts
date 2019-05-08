@@ -92,9 +92,8 @@
                     document.getElementsByClassName('Topbar-notificationsButton')[0].click();
                     break;
                 case 'Digit8':
-                    document.querySelector('.MyTasksGridHeader-settingsMenu').click();
-                    document.querySelector('.GridSortSection-button').click();
-                    document.querySelector('.GridSortSection-option.GridViewDropdownContents-sortSectionSortByDueDate').click();
+                    document.querySelector('.SortMenu').click()
+                    document.querySelector('#view_options_sort_ByDate').click()
                     break;
                 case 'Digit7':
                     clearTimeEstimates();
